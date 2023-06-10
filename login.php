@@ -5,9 +5,18 @@
 
 
 
+
 </head>
 
 <body>
+
+<!-- particles.js container -->
+<div id="particles-js"></div>
+
+<!-- scripts do particle-->
+<script src="./dist/js/particles.js"></script>
+<script src="./dist/js/app.js"></script>
+
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
   
