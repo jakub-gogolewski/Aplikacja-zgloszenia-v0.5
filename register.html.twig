@@ -3,9 +3,6 @@
 <link rel="stylesheet" href="./dist/css/login.css">
 <link rel="stylesheet" href="./plugins/fontawesome-free/css/all.css">
 
-
-
-
 </head>
 
 <body>
@@ -17,103 +14,101 @@
 <script src="./dist/js/particles.js"></script>
 <script src="./dist/js/app.js"></script>
 
-<div class="container right-panel-active noanimation" id="container">
-	<div class="form-container sign-up-container">
-  
-		{{ form_start(registrationForm) }}
+<div class="
+		container
+		{% if destination == '/register' %} right-panel-active noanimation {% endif %}
+	"
+	id="container">
 
-			<h1>Zarejestruj się</h1><br>
+<div class="form-container sign-up-container">
+    
+    {{ form_start(registrationForm) }}
+    <h1>Zarejestruj się</h1><br>
 
-      <div class="input-group mb-3">
+    <div class="input-group mb-3">
 
-                  {{ form_errors(registrationForm.name) }}
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
-                  </div>
+        {{ form_errors(registrationForm.name) }}
+        <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
+        </div>
 
-                  {{ form_widget(registrationForm.name) }}
+        {{ form_widget(registrationForm.name) }}
+    </div>
 
-                </div>
+    <div class="input-group mb-3">
+        {{ form_errors(registrationForm.surname) }}
+        <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
+        </div>
+        
+        {{ form_widget(registrationForm.surname) }}
+    </div>
 
-     <div class="input-group mb-3">
+<div class="input-group mb-3">
+        {{ form_errors(registrationForm.email) }}
+        <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+        </div>
 
-                  {{ form_errors(registrationForm.surname) }}
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
-                  </div>
-                  
-                  {{ form_widget(registrationForm.surname) }}
+        {{ form_widget(registrationForm.email) }}
+    </div>
 
-                </div>
+    <div class="input-group mb-3">
+        {{ form_errors(registrationForm.phoneNumber) }}
+        <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+        </div>
+        
+        {{ form_widget(registrationForm.phoneNumber) }}
+    </div>
 
-	<div class="input-group mb-3">
+    <div class="input-group mb-3">
+        {{ form_errors(registrationForm.plainPassword) }}
+        <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+        </div>
+        
+        {{ form_widget(registrationForm.plainPassword) }}
+    </div>
 
-                  {{ form_errors(registrationForm.email) }}
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                  </div>
-
-                  {{ form_widget(registrationForm.email) }}
-
-                </div>
-
-     <div class="input-group mb-3">
-
-                  {{ form_errors(registrationForm.phoneNumber) }}
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
-                  </div>
-                  
-                  {{ form_widget(registrationForm.phoneNumber) }}
-
-                </div>
-
-      <div class="input-group mb-3">
-
-                  {{ form_errors(registrationForm.plainPassword) }}
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                  </div>
-                  
-                  {{ form_widget(registrationForm.plainPassword) }}
-				  </div>
-
-      <div class="input-group mb-3">
+    <div class="input-group mb-3">
       	<div>
-			<span class="input-group-text">{{ form_widget(registrationForm.agreeTerms) }}</span>
-		</div>
-		<input class="form-control" value="Akceptuję regulamin" disabled>
-	  </div><br>
-			<button>ZAREJESTRUJ SIĘ</button>
-		
-		{{ form_end(registrationForm) }}
-	</div>
-	<div class="form-container sign-in-container">
-		<form action="/login" method="POST">
-      
-			<h1>Zaloguj się</h1><br>
-			<div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                  </div>
-                 	<input type="text" value="{{ last_username }}" name="login" id="inputLogin" class="form-control" autocomplete="username" required autofocus>
-                </div>
-      <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                  </div>
-		<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-		<input type="hidden" name="_csrf_token"
-           		value="{{ csrf_token('authenticate') }}"
-    		>
-      </div>
-			<a href="#">Zapomniałeś hasła?</a>
-			<button>ZALOGUJ</button>
-		</form>
-	</div>
-	<div class="overlay-container">
-		<div class="overlay">
-			<div class="overlay-panel overlay-left">
+<span class="input-group-text">{{ form_widget(registrationForm.agreeTerms) }}</span>
+</div>
+<input class="form-control" value="Akceptuję regulamin" disabled>
+    </div><br>
+
+    <button>ZAREJESTRUJ SIĘ</button>
+    {{ form_end(registrationForm) }}
+</div>
+
+<div class="form-container sign-in-container">
+    <h1>Zaloguj się</h1><br>
+    <form action="/login" method="POST">
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            </div>
+            <input type="text" value="{{ last_username }}" name="login" id="inputLogin" class="form-control" autocomplete="username" required autofocus>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            </div>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+            >
+        </div>
+        <a href="#">Zapomniałeś hasła?</a>
+        <button>ZALOGUJ</button>
+    </form>
+</div>
+<div class="overlay-container">
+<div class="overlay">
+<div class="overlay-panel overlay-left">
       <a href="#" class="navbar-brand logo">
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 508.000000 131.000000"
@@ -171,11 +166,11 @@
     </g>
     </svg>
 </a>
-				<h1>Masz już konto?</h1>
-				<p>Kliknij tutaj i zaloguj się!</p>
-				<button class="ghost" id="signIn">LOGOWANIE</button>
-			</div>
-			<div class="overlay-panel overlay-right">
+<h1>Masz już konto?</h1>
+<p>Kliknij tutaj i zaloguj się!</p>
+<button class="ghost" id="signIn">LOGOWANIE</button>
+</div>
+<div class="overlay-panel overlay-right">
       <a href="#" class="navbar-brand logo">
     <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 508.000000 131.000000"
@@ -233,12 +228,12 @@
     </g>
     </svg>
 </a>
-				<h1>Nie masz konta?</h1>
-				<p>Kliknij tutaj i zarejestruj się!</p>
-				<button class="ghost" id="signUp">REJESTRACJA</button>
-			</div>
-		</div>
-	</div>
+<h1>Nie masz konta?</h1>
+<p>Kliknij tutaj i zarejestruj się!</p>
+<button class="ghost" id="signUp">REJESTRACJA</button>
+</div>
+</div>
+</div>
 </div>
 
 <script type=text/javascript>
@@ -247,12 +242,12 @@ const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container');
 
 signUpButton.addEventListener('click', () => {
-	container.classList.add("right-panel-active");
+container.classList.add("right-panel-active");
 });
 
 signInButton.addEventListener('click', () => {
-	container.classList.remove("right-panel-active");
-	container.classList.remove("noanimation");
+container.classList.remove("right-panel-active");
+container.classList.remove("noanimation");
 
 });
 
