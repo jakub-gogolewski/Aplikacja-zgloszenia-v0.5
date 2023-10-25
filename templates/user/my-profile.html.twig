@@ -1,0 +1,365 @@
+{% extends "base.html.twig" %}
+{% block styles %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LB SOLUTIONS - WARSZTAT</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="./plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="./dist/css/adminlte.css">
+
+<style>
+
+.alert.alert-success{
+
+  width:50%;
+
+}
+
+  .image-upload {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    display: block;
+}
+
+.user-image-to-change {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.image-upload:hover .overlay {
+    opacity: 1;
+}
+
+
+#upload-icon{
+
+  font-size: 2.5rem;
+
+}
+
+.input-group-prepend{
+  width:7.5rem;
+}
+
+.input-group-text{
+  width:100%;
+}
+.btn{
+  border-radius:20px;
+}
+
+.btn-success{
+  width:9.5rem;
+  
+}
+
+.container > .row{
+  padding: 20px;
+  outline: 2px solid #FFFDFA;
+  border-radius: 25px;
+  margin-bottom:30px;
+}
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-12">
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12"></div>
+          <div class="col-lg-3" id="profile-block">
+
+            <div class="image-upload">
+
+              <img src="./dist/img/user.png" alt="User" id="user-image" class="user-image-to-change img-circle elevation-2">
+          <span style="margin:auto;width:100%;">{{ app.user.getRoles()[0] }}</span>
+          </div>
+
+          
+      
+            
+            <br>
+            <button data-id="{{ app.user.getId() }}" onclick="enableInputs({{ app.user.getId() }})" class="btn btn-info" style="display: block !important; margin:auto; width:60%;"><i class="far fa-user"></i>EDYTUJ DANE</button><br><br>
+            <button data-id="{{ app.user.getId() }}" class="btn btn-danger" id="delete-user" style="display: block !important; margin:auto; width:60%;"><i class="fas fa-skull-crossbones"></i> USUŃ KONTO <i class="fas fa-skull-crossbones"></i></button>
+        
+        
+            <script>
+              function confirmDelete() {
+                var result = confirm("Czy na pewno chcesz usunąć konto?");
+                if (result == true) {
+                  //trzeba sprawdzić czy nie jest to jedyny admin w bazie danych
+                  alert("Pomyślnie usunięto konto");
+                  //jakiś kod inny
+                } else {
+                  // Nic nie rób, jeśli użytkownik kliknie "Nie"
+                }
+              }
+              </script>
+        
+          </div>
+          
+          <div class="col-lg-9">
+            <h3>Twój profil</h3>
+            <form name="user-{{ app.user.getId() }}" data-id={{ app.user.getId() }} id="form-{{ app.user.getId()}}">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><label>Imię&nbsp</label></span>
+              </div>
+              <input type="text" class="form-control" name="name" value="{{ app.user.getName() }}" disabled>
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
+              </div>
+            </div>
+ <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" ><label>Nazwisko&nbsp</label></span>
+              </div>
+              <input type="text" class="form-control" name="surname" value="{{ app.user.getSurname() }}" disabled>
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
+              </div>
+            </div>
+              <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><label>Email&nbsp</label></span>
+              </div>
+              <input type="email" class="form-control" name="email" value="{{ app.user.getEmail() }}" disabled>
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+              </div>
+            </div>
+                <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><label>Telefon&nbsp</label></span>
+              </div>
+              <input type="phone" class="form-control" name="phoneNumber" value="{{ app.user.getPhoneNumber() }}" disabled>
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-phone-alt"></i></span>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><label>Konto od&nbsp</label></span>
+              </div>
+              <input type="text" class="form-control" value="{{ app.user.getcreationDate()|date("d-m-Y") }}" disabled>
+              <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+              </div>
+            </div>
+
+            <button type="submit" form="form-{{ app.user.getId() }}" data-id="{{ app.user.getId() }}" class="save-edited-row btn btn-success float-right disabled" style="display:none;">Zapisz zmiany <i class="fas fa-save"></i></button>
+            </form>
+            <br>
+            <div id="zmien-haslo" style="">
+              <h3>Zmiana hasła</h3>
+              {{ form_start(resetForm) }}        
+                {{ form_widget(resetForm.plainPassword) }}
+                             
+                          {% for flashMessage in app.session.flashbag.get('notice') %}
+
+              <div class="alert alert-success float-left">
+                  {{ flashMessage }}
+              </div>
+
+              {% endfor %}
+                  <br><button class="btn btn btn-primary btn-success float-right">Zmień hasło <i class="fas fa-lock"></i></button>
+
+            </div>
+
+ {{ form_end(resetForm) }}
+
+          </div>
+
+
+          
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+    
+  </div>
+  <!-- /.content-wrapper -->
+{% endblock %}
+  
+
+{% block required_scripts %}
+
+
+<!-- ./wrapper -->
+
+
+<script>
+function enableInputs(userId) {
+    const form = document.querySelector('#form-' + userId);
+
+    // Wybieramy wszystkie inputy, które nie mają ustawionej wartości na datę utworzenia
+    const inputs = form.querySelectorAll('input:not([value^="{{ app.user.getcreationDate()|date("d-m-Y") }}"])');
+    inputs.forEach(input => {
+        input.disabled = false;
+    });
+
+    const button = form.querySelector('button.btn-success.disabled');
+    if(button) {
+        button.style.display="block";
+        button.classList.remove('disabled');
+    }
+}
+</script>
+<!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<script src="./plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery UI -->
+<script src="./plugins/jquery-ui/jquery-ui.min.js"></script>
+
+<script>
+$('body').on('click', '#delete-user', function()
+{
+
+                  {% if 'Admin' in app.user.getRoles() %}
+                            alert("Tylko inny administrator może usunąć administratora, poprzez listę pracowników!");
+                            return;
+                  {% endif %}
+
+    let result = confirm("Czy na pewno chcesz usunąć konto?");
+    if (result === false)
+        return;
+
+    $.ajax({
+        type: "POST",
+        url: `/api/user/remove/{{ app.user.getId() }}`,
+        success: function(res)
+        {
+            if (res === "error") {
+                alert("Nie udało się usunąć użytkownika");
+                return;
+            }
+            // Przekierowanie do strony wylogowania po udanym usunięciu
+            window.location.href = '/logout';
+        }		
+    });
+})
+</script>
+
+<script>
+$('form[id^="form-"]').on('submit', function(e) {
+    e.preventDefault();
+
+const name = $("input[name='name']").val();
+    const surname = $("input[name='surname']").val();
+    const email = $("input[name='email']").val();
+    const phoneNumber = $("input[name='phoneNumber']").val();
+
+    const nameRegex = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const phoneNumberRegex = /^[0-9]{9}$/;
+
+    if (!nameRegex.test(name)) {
+        alert('Imię powinno zaczynać się wielką literą i składać się tylko z liter.');
+        return;
+    }
+    
+    if (!nameRegex.test(surname)) {
+        alert('Nazwisko powinno zaczynać się wielką literą i składać się tylko z liter.');
+        return;
+    }
+    
+    if (!emailRegex.test(email)) {
+        alert('Wprowadź poprawny adres e-mail.');
+        return;
+    }
+
+    if (!phoneNumberRegex.test(phoneNumber)) {
+        alert('Numer telefonu powinien składać się z 9 cyfr.');
+        return;
+    }
+
+
+    var userId = $(this).data('id');
+
+    $.ajax({
+        type: "POST",
+        url: `/api/user/edit/${userId}`,
+        data: $(this).serialize(),
+        success: function(res) {
+            if(res === 'error') {
+                alert('Nie udało się zmienić danych użytkownika');
+                // Resetujemy wartości i blokujemy pola wejściowe
+                $(`#form-${userId} input`).each(function() {
+                    $(this).val($(this).data('originalValue'));
+                    $(this).attr('disabled', 'disabled');
+                });
+                return;
+            }
+
+        },
+        error: function() {
+            alert('Wystąpił błąd podczas aktualizacji danych użytkownika');
+            // Resetujemy wartości i blokujemy pola wejściowe
+            $(`#form-${userId} input`).each(function() {
+                $(this).val($(this).data('originalValue'));
+                $(this).attr('disabled', 'disabled');
+            });
+        }
+    });
+});
+
+</script>
+
+<script>
+
+            $(document).ready(function(){
+            $('#edit_form_phoneNumber').mask('000000000');
+            });
+
+</script>
+
+
+
+{% endblock %}

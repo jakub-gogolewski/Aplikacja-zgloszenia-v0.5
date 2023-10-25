@@ -1,0 +1,13 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+plugins:
+    path: /plugins
+    defaults: { _controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction', path: '/templates/plugins' }
+    methods: GET
+dist:
+    path: /dist
+    defaults: { _controller: 'Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction', path: '/templates/dist' }
+    methods: GET

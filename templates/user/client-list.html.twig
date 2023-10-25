@@ -1,0 +1,293 @@
+{% extends "base.html.twig" %}
+
+{% block styles %}
+<!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="./plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="./dist/css/adminlte.css">
+
+    <!-- DataTables -->
+  <link rel="stylesheet" href="./plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="./plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="./plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+	<style>
+
+  
+  td input{
+
+    width:11rem !important;
+    background:none;
+    background:none;
+    color:#FFFDFA
+
+  }
+
+  #emailinput {
+			width:20rem !important;
+      background:none;
+      color:#FFFDFA
+		} 
+
+.content{
+    margin-top:30px;
+  }
+  
+	</style>
+{% endblock %}
+
+{% block content %}
+  
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+<!-- Content Header (Page header) -->
+
+    <!-- Main content -->
+    <section class="content">
+  	<div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            
+            <!-- /.card -->
+
+            <div class="card">
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+
+
+                    <th>ID</th>
+                    <th>Imię</th>
+                    <th >Nazwisko</th>
+                    <th >Email</th>
+                    <th>Telefon</th>
+                    <th >Data dołączenia</th>
+                    <th></th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+
+              {% for user in users %}			
+                <tr id="row-{{ user.getId() }}">
+					<form name="user-{{ user.getId() }}" data-id={{ user.getId() }} id="form-{{ user.getId() }}"></form>
+                    <td data-sort="{{ user.getId() }}">{{ user.getId() }}</td>
+					<td data-sort="{{ user.getName() }}">
+						<input class="user-{{ user.getId() }}" form="form-{{ user.getId() }}" name="name" value="{{ user.getName() }}" disabled>
+					</td>
+                    <td data-sort="{{ user.getSurname() }}">
+						<input class="user-{{ user.getId() }}" form="form-{{ user.getId() }}" name="surname" value="{{ user.getSurname() }}" disabled>
+					</td>
+                    <td data-sort="{{ user.getEmail() }}">
+						<input id="emailinput" class="user-{{ user.getId() }}" form="form-{{ user.getId() }}" name="email" value="{{ user.getEmail() }}" disabled>
+					</td >
+                    <td data-sort="{{ user.getPhoneNumber() }}">
+						<input class="user-{{ user.getId() }}" form="form-{{ user.getId() }}" name="phoneNumber" value="{{ user.getPhoneNumber() }}" disabled>
+					</td>
+                    <td data-sort="{{ app.user.getcreationDate()|date("d-m-Y") }}">{{ app.user.getcreationDate()|date("d-m-Y") }}</td>
+					<td>
+                      <button data-id="{{ user.getId() }}" class="edit-row btn btn-info float-left"><i class="far fa-user"></i>EDYTUJ</button>
+                      <button type="submit" form="form-{{ user.getId() }}" data-id="{{ user.getId() }}" class="save-edited-row btn btn-success float-left" style="display:none"><i class="far fa-user"></i>ZAPISZ</button>
+					  <button data-id="{{ user.getId() }}" class="delete-row btn btn-danger float-right"><i class="fas fa-skull-crossbones"></i> USUŃ <i class="fas fa-skull-crossbones"></i></button> 
+                  	</td>
+				</tr>
+        	{% endfor %}
+                  
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock %}
+
+{% block required_scripts %}
+<!-- jQuery -->
+<script src="./plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery UI -->
+<script src="./plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- AdminLTE App -->
+<script src="./dist/js/adminlte.min.js"></script>
+
+<!-- DataTables  & Plugins -->
+<script src="./plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="./plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="./plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="./plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="./plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="./plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="./plugins/jszip/jszip.min.js"></script>
+<script src="./plugins/pdfmake/pdfmake.min.js"></script>
+<script src="./plugins/pdfmake/vfs_fonts.js"></script>
+<script src="./plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="./plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="./plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+<script>
+
+	$('body').on('click', '.edit-row', function()
+	{
+		$(`input.user-${$(this).data("id")}`).each(function() {
+			$(this).removeAttr('disabled');
+		})
+		$(this).hide();
+		$(this).next('.save-edited-row').show();
+	})
+	$('body').on('click', '.delete-row', function()
+	{
+    if ({{ app.user.getId() }} == $(this).data("id")) {
+      alert("Jeśli chcesz usunąć sam siebie, zrób to poprzez 'mój profil'");
+      return;
+    }
+
+		let result = confirm("Czy na pewno chcesz usunąć konto?");
+        if (result === false)
+			return;
+			
+		$.ajax({
+			type: "POST",
+			url: `/api/user/remove/${$(this).data("id")}`,
+			data: $(this).serialize(),
+			success: function(res)
+			{
+				if (res === "error") {
+					alert("Nie udało się usunąć użytkownika");
+					return;
+				}
+				$(`#row-${res}`).remove();
+			}		
+		});
+	})
+
+$(function () {
+    var numCols = $("#example1 thead th").length;
+
+    $("#example1").DataTable({
+        columnDefs: [
+            { "orderable": false, "targets": numCols - 1 },
+            { "searchable": false, "targets": numCols - 1 }
+        ],
+        "responsive": true, 
+        "lengthChange": false, 
+        "autoWidth": false,
+        "buttons": [
+            { 
+                extend: 'print', 
+                exportOptions: { 
+                    columns: ':not(:last-child)',
+                    orthogonal: 'sort' 
+                } 
+            },
+            { 
+                extend: 'pdf', 
+                exportOptions: { 
+                    columns: ':not(:last-child)',
+                    orthogonal: 'sort' 
+                } 
+            },
+            { 
+                extend: 'csv', 
+                exportOptions: { 
+                    columns: ':not(:last-child)',
+                    orthogonal: 'sort' 
+                } 
+            },
+            { 
+                extend: 'excel', 
+                exportOptions: { 
+                    columns: ':not(:last-child)',
+                    orthogonal: 'sort' 
+                } 
+            },
+            { extend: 'colvis', columns: ':not(:last-child)' }
+        ],
+        "language": {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/pl.json',
+        },
+        "initComplete": function () {
+            this.api().buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            
+        }
+    });
+});
+
+
+
+
+$('form[id^="form-"]').on('submit', function(e)
+{
+	e.preventDefault();
+  const name = $("input[name='name']").val();
+    const surname = $("input[name='surname']").val();
+    const email = $("input[name='email']").val();
+    const phoneNumber = $("input[name='phoneNumber']").val();
+
+    const nameRegex = /^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const phoneNumberRegex = /^[0-9]{9}$/;
+
+    if (!nameRegex.test(name)) {
+        alert('Imię powinno zaczynać się wielką literą i składać się tylko z liter.');
+        return;
+    }
+    
+    if (!nameRegex.test(surname)) {
+        alert('Nazwisko powinno zaczynać się wielką literą i składać się tylko z liter.');
+        return;
+    }
+    
+    if (!emailRegex.test(email)) {
+        alert('Wprowadź poprawny adres e-mail.');
+        return;
+    }
+
+    if (!phoneNumberRegex.test(phoneNumber)) {
+        alert('Numer telefonu powinien składać się z 9 cyfr.');
+        return;
+    }
+
+
+	$.ajax({
+		type: "POST",
+		url: `/api/user/edit/${$(this).data("id")}`,
+		data: $(this).serialize(),
+		success: function(res)
+		{
+			if(res === 'error')
+			{
+				alert('Nie udało się zmienić danych użytkownika')
+				return;
+			}
+
+			$(`input.user-${res}`).each(function() {
+	            $(this).attr('disabled', 'disabled');
+		    })
+
+			$(`.edit-row[data-id="${res}"]`).show();
+			$(`.save-edited-row[data-id="${res}"]`).hide()			
+		}
+	});
+})
+
+
+</script>
+{% endblock %}
